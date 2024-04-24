@@ -1,0 +1,71 @@
+# Installation d'apache2 
+
+
+Pour l' installation d'apache2 sur linux, veuillez vous premunir d'une code source d'apache2 que vous pouvez télécharger sur le site officiel d'apache2 ou d'une branche sur github. 
+Nous allons ici proceder a une installation locale, c'est-a-dire dans un repertoire que l'on va creer dans /usr/local(Par defaut pour certain distribution de linux, l' installation d'un paquet sera dans ce repertoire). Si des droits de superutilisateur sont requises, n'hesitez pas a ajouter 'sudo' au debut de chaque ligne de commande
+
+Avant toutes choses, executer la commande:
+	# apt-get update
+
+Ensuite, decompresser le fichier .tar.gz avec la commande :
+	# tar -zxvf httpd-'version'.tar.gz (l'option -v est optionnel si vous voulez desactiver le verbose)
+
+A l'issue de cette commande, un nouveau repertoire sera cree. Acceder a ce nouveau repertoire :
+	# cd httpd-2.4.59
+Puis:
+	# ls 
+		.
+		..
+		modules/
+		os/
+		server/
+		srclib/
+		support/
+		test/
+		docs/
+		include/
+		change-entries/
+		...
+		...	 
+		configure
+		...
+		...
+Le resultat peut differer d'une source a l'autre. Le script 'configure' est le script d'installation. Avant de continuer, creer d'abord le repertoire apache2.4.59 dans /usr/local:
+	# mkdir /usr/local/apache2.4.59
+	
+Pour installer apache2 dans le repertoire nouvellement cree:
+	# buildconf
+	# ./configure --prefix=/usr/local/apache2.4.59 --enable-shared=max
+	
+Si il y a une erreur lors du processus d'installation:
+	"checking for APR... no
+	 configure: error: APR not found.  Please read the documentation.", 
+Installer les paquets suivants:
+	 build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev 
+avec apt-get:
+	# apt-get install build-essential libssl-dev libexpat-dev libpcre3-dev libapr1-dev libaprutil1-dev 
+Puis refaire la commande:
+	# ./configure --prefix=/usr/local/apache2.4.59 --enable-shared=max
+
+Une fois terminee, executer les commandes make et make install pour installer le serveur apache sur votre systeme:
+	# make && make install
+Si des erreurs apparaissent, ajouter l'option -i avec make et make install:
+	# make -i && make -i install
+Si l'erreur persiste, il est preferable de telecharger une autre source ou une autre version d'apache. Pour les plus avances, modifier directement les erreurs de syntaxes dans les fichiers de configuration d'apache2. 
+	
+Pour lancer le service apache, executer la commande apachectl du repertoire bin/ du repertoire d'installation:
+	# /usr/local/apache2.4.59/bin/apachectl start
+	
+Pour voir le status du service:
+	# /usr/local/apache2.4.59/bin/apachectl status 
+ou :
+	# ps -ef | grep apache2
+	
+
+	 
+	 
+	
+
+	
+
+
