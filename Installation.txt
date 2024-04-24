@@ -1,0 +1,58 @@
+# Installation de Mysql-8.3.0 
+
+Veuillez vous premunir de la derniere version de Mysql du site officiel de Mysql. Les pre-requis pour l'installation sont:
+	.cmake(apt-get install cmake)
+	.make(apt-get install make)
+	.les librairies SSL(apt-get install openssl) 
+	.Les librairies Boost(apt-get install boost)
+	.ncurses(apt-get install libncurses-dev)
+	.Perl(apt-get install perl)
+
+Pour la pre-configuration, creer un nouveau groupe mysql:
+	# groupadd mysql
+Ensuite, ajouter l' utilisateur mysql a ce nouveau groupe:
+	# useradd -r -g mysql -s /bin/false mysql 
+On peut maintenant proceder a la suite de l' installation. 
+Decompresser l'archive mysql-8.3.0 avec la commande tar:
+	# tar -xvzf mysql-8.3.0
+	
+A l' issue de cette commande, un nouveau repertoire va etre cree. Acceder a ce nouveau repertoire avec la commande :
+	# cd mysql-8.3.0
+
+Lister le contenu du repertoire pour voir les fichiers de configuration:
+	# ls 
+	man/ 
+	build/
+	docs/
+	ext/
+	libs/
+	include/
+	...
+	...
+	
+Il se peut que le repertoire build est deja cree. Sinon, creer-le avec:
+	# mkdir build
+Puis, acceder a ce nouveau repertoire:
+	# cd build
+Pour creer le makefile, executer la commande;
+	# cmake ..
+Ensuite, executer la commande make et make install pour la compilation:
+	# make && make install
+	
+S'il y a des erreurs de syntaxes, ajouter l' option -i a make et make install:
+	# make -i && make -i install
+Si l'erreur persiste, essayer de corriger les erreurs de syntaxe ou telecharger une autre source ou une autre version de Mysql.
+
+Pour la post-installation, acceder au repertoire mysql dans /usr/local:
+	# cd /usr/local/mysql
+Creer un nouveau repertoire mysql-files;
+	# mkdir mysql-files
+Changer le proprietaire du nouveau repertoire avec chown:
+	# chown mysql:mysql mysql-files
+Ensuite, les commandes suivantes  pour initialiser le serveur Mysql;
+	# mysqld --initialize --user=mysql
+	# mysql_ssl_rsa_setup
+	# mysqld_safe --user=mysql &
+	
+Pour que le service soit reconnue par systemctl ou par service, mysql.server dans /etc/init.d/mysql.server:
+	# cp support-files/mysql.server /etc/init.d/mysql.server
